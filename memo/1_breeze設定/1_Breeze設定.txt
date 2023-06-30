@@ -1,0 +1,25 @@
+
+Breezeインストール
+
+composer require laravel/breeze "1.*" --dev
+
+php artisan breeze:install
+
+  Which stack would you like to install?
+  blade ................................................................................................................. 0
+  react ................................................................................................................. 1
+  vue ................................................................................................................... 2
+  api ................................................................................................................... 3
+❯ 0
+
+  Would you like to install dark mode support? (yes/no) [no]
+❯ no
+
+  Would you prefer Pest tests instead of PHPUnit? (yes/no) [no]
+❯ no
+
+npm install
+
+npm run dev
+
+php artisan migrate

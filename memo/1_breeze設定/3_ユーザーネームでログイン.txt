@@ -1,0 +1,137 @@
+
+3_ユーザーネームでログイン
+
+ユーザーネームでもログインできるようにする
+
+◆テーブル編集◆
+
+ディレクトリ
+\resources\views\components\application-logo.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('users', function (Blueprint $table) {
+
+      ↓↓追記↓↓
+      $table->string('username')->unique();
+
+    });
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+
+◆モデルの編集◆
+
+ディレクトリ
+\app\Models\User.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $guarded = [];
+
+★コード解説★
+protected $guarded = [];で、カラムの登録をすべて許容する
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラー編集◆
+
+ディレクトリ
+\app\Http\Controllers\Auth\RegisteredUserController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function store(Request $request): RedirectResponse
+  {
+    $request->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'username' => ['required', 'string', 'max:255', 'unique:users'],
+      'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+      'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    $user = User::create([
+      'name' => $request->name,
+      'username' => $request->username,
+      'email' => $request->email,
+      'password' => Hash::make($request->password),
+    ]);
+
+★コード解説★
+
+ユーザーの登録ができたらOK
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+◆ログイン処理◆
+
+ディレクトリ
+\resources\views\auth\login.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <form method="POST" action="{{ route('login') }}">
+    @csrf
+
+    <!-- Username -->
+    <div>
+      <x-input-label for="username" :value="__('Username')" />
+      <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
+    </div>
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+◆LoginRequest編集◆
+
+ディレクトリ
+\app\Http\Requests\Auth\LoginRequest.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function rules(): array
+  {
+    return [
+      'username' => ['required', 'string'],
+      'password' => ['required', 'string'],
+    ];
+  }
+
+  /**
+   * Attempt to authenticate the request's credentials.
+   *
+   * @throws \Illuminate\Validation\ValidationException
+   */
+  public function authenticate(): void
+  {
+    $this->ensureIsNotRateLimited();
+
+    if (!Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
+      RateLimiter::hit($this->throttleKey());
+
+      throw ValidationException::withMessages([
+        'email' => trans('auth.failed'),
+      ]);
+    }
+
+
+
+
+
+
+
+
+
+
