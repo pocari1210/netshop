@@ -1,0 +1,9 @@
+
+下記ファイルをテンプレートに当てはめる
+
+\resources\views\auth\register.blade.php
+\resources\views\auth\login.blade.php
+
+JSやCSSファイルはassetメソッドで読み込む
+
+formタグにrouteを追記する
