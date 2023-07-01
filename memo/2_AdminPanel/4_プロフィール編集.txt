@@ -1,0 +1,111 @@
+
+4_プロフィール編集
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+Route::controller(AdminController::class)->group(function () {
+
+  // プロフィール:編集のルート
+  Route::get('/edit/profile', 'EditProfile')
+    ->name('edit.profile');
+
+  // プロフィール:保存のルート
+  Route::post('/store/profile', 'StoreProfile')
+    ->name('store.profile');
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('users', function (Blueprint $table) {
+　　　↓↓追記↓↓
+      $table->string('profile_image');
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\admin_profile_view.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<a href="{{ route('edit.profile') }}" class="btn btn-info btn-rounded waves-effect waves-light"> 
+  Edit Profile
+</a>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\AdminController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // ★プロフィール編集のコントローラー★
+  public function EditProfile()
+  {
+    $id = Auth::user()->id;
+    $editData = User::find($id);
+
+    return view(
+      'admin.admin_profile_edit',
+      compact('editData')
+    );
+  } // End Method 
+
+  // ★プロフィール保存のコントローラー★
+  public function StoreProfile(Request $request)
+  {
+    $id = Auth::user()->id;
+    $data = User::find($id);
+    $data->name = $request->name;
+    $data->email = $request->email;
+    $data->username = $request->username;
+
+    if ($request->file('profile_image')) {
+      $file = $request->file('profile_image');
+      $filename = date('YmdHi') . $file->getClientOriginalName();
+      $file->move(public_path('upload/admin_images'), $filename);
+      $data['profile_image'] = $filename;
+    }
+    $data->save();
+
+    return redirect()->route('admin.profile');
+  } // End Method
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\admin\admin_profile_edit.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // 画像の編集
+  <div class="row mb-3">
+    <label for="example-text-input" class="col-sm-2 col-form-label"> </label>
+    <div class="col-sm-10">
+      <img id="showImage" class="rounded avatar-lg" src="{{ (!empty($editData->profile_image))? url('upload/admin_images/'.$editData->profile_image):url('upload/no_image.jpg') }}" alt="Card image cap">
+    </div>
+  </div>
+
+★コード解説★
+
+参考演算子を用いて、画像を表示させている
+inputタグのname属性とコントローラーの$data->nameなどが紐づいてる

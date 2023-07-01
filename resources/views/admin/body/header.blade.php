@@ -33,8 +33,6 @@
           <span class="ri-search-line"></span>
         </div>
       </form>
-
-
     </div>
 
     <div class="d-flex">
@@ -58,8 +56,6 @@
         </div>
       </div>
 
-
-
       <div class="dropdown d-none d-lg-inline-block ms-1">
         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
           <i class="ri-fullscreen-line"></i>
@@ -68,8 +64,7 @@
 
       <div class="dropdown d-inline-block user-dropdown">
         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="rounded-circle header-profile-user" src="{{ asset('backend/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
-          <span class="d-none d-xl-inline-block ms-1">Julia</span>
+          <img class="rounded-circle header-profile-user" src="{{ (!empty($adminData->profile_image))? url('upload/admin_images/'.$adminData->profile_image):url('upload/no_image.jpg') }}" <span class="d-none d-xl-inline-block ms-1">{{ $adminData->name }}</span>
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end">
@@ -82,8 +77,6 @@
           <a class="dropdown-item text-danger" href="{{ route('admin.logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
         </div>
       </div>
-
-
 
     </div>
   </div>

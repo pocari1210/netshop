@@ -27,8 +27,17 @@ Route::controller(AdminController::class)->group(function () {
   Route::get('/admin/logout', 'AdminLogout')
     ->name('admin.logout');
 
+  // プロフィール:詳細のルート
   Route::get('/admin/profile', 'Profile')
     ->name('admin.profile');
+
+  // プロフィール:編集のルート
+  Route::get('/edit/profile', 'EditProfile')
+    ->name('edit.profile');
+
+  // プロフィール:保存のルート
+  Route::post('/store/profile', 'StoreProfile')
+    ->name('store.profile');
 });
 
 
