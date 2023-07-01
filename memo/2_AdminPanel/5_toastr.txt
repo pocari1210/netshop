@@ -1,0 +1,73 @@
+
+5_toastr
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\admin_master.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <!-- toastr Css -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
+  <script>
+    @if(Session::has('message'))
+    var type = "{{ Session::get('alert-type','info') }}"
+    switch (type) {
+      case 'info':
+        toastr.info(" {{ Session::get('message') }} ");
+        break;
+      case 'success':
+        toastr.success(" {{ Session::get('message') }} ");
+        break;
+      case 'warning':
+        toastr.warning(" {{ Session::get('message') }} ");
+        break;
+      case 'error':
+        toastr.error(" {{ Session::get('message') }} ");
+        break;
+    }
+    @endif
+  </script>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\AdminController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // ★プロフィール保存のコントローラー★
+  public function StoreProfile(Request $request)
+  {
+    $id = Auth::user()->id;
+    $data = User::find($id);
+    $data->name = $request->name;
+    $data->email = $request->email;
+    $data->username = $request->username;
+
+    if ($request->file('profile_image')) {
+      $file = $request->file('profile_image');
+      $filename = date('YmdHi') . $file->getClientOriginalName();
+      $file->move(public_path('upload/admin_images'), $filename);
+      $data['profile_image'] = $filename;
+    }
+    $data->save();
+
+    ↓↓追記↓↓
+    $notification = array(
+      'message' => 'Admin Profile Updated Successfully',
+      'alert-type' => 'info'
+    );
+
+    return redirect()->route('admin.profile')->with($notification);
+　　↑↑追記↑↑
+
+  } // End Method
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////

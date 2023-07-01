@@ -38,6 +38,14 @@ Route::controller(AdminController::class)->group(function () {
   // プロフィール:保存のルート
   Route::post('/store/profile', 'StoreProfile')
     ->name('store.profile');
+
+  // パスワード変更処理のルート
+  Route::get('/change/password', 'ChangePassword')
+    ->name('change.password');
+
+  // パスワード更新のルート
+  Route::post('/update/password', 'UpdatePassword')
+    ->name('update.password');
 });
 
 

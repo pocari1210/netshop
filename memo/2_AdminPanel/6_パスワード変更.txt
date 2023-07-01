@@ -1,5 +1,5 @@
 
-4_プロフィール編集
+
 
 ◆ルートの編集◆
 
@@ -8,7 +8,15 @@
 
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 
+Route::controller(AdminController::class)->group(function () {
 
+  // パスワード変更処理のルート
+  Route::get('/change/password', 'ChangePassword')
+    ->name('change.password');
+
+  // パスワード更新のルート
+  Route::post('/update/password', 'UpdatePassword')
+    ->name('update.password');
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
