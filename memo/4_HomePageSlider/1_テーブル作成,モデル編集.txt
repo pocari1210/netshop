@@ -1,0 +1,41 @@
+
+
+
+◆tableの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_02_091158_create_home_slides_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('home_slides', function (Blueprint $table) {
+      $table->id();
+      $table->string('title')->nullable();
+      $table->string('short_title')->nullable();
+      $table->string('home_slide')->nullable();
+      $table->string('video_url')->nullable();
+      $table->timestamps();
+    });
+  }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆Modelの編集◆
+
+ディレクトリ
+
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+class HomeSlide extends Model
+{
+  use HasFactory;
+
+  protected $guarded = [];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
