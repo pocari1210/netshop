@@ -1,0 +1,64 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use App\Http\Controllers\Home\HomeSliderController;
+
+// Home Slide All Route 
+Route::controller(HomeSliderController::class)->group(function () {
+  Route::get('/home/slide', 'HomeSlider')->name('home.slide');
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <li>
+    <a href="javascript: void(0);" class="has-arrow waves-effect">
+      <i class="ri-mail-send-line"></i>
+      <span>Home Slide Setup</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+      <li><a href="{{ route('home.slide') }}">Home Slide</a></li>
+    </ul>
+  </li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+下記コマンドでコントローラーを新規作成
+php artisan make:controller Home/HomeSliderController
+
+ディレクトリ
+\app\Http\Controllers\Home\HomeSliderController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use App\Models\HomeSlide;
+
+class HomeSliderController extends Controller
+{
+  public function HomeSlider()
+  {
+    $homeslide = HomeSlide::find(1);
+
+    return view(
+      'admin.home_slide.home_slide_all',
+      compact('homeslide')
+    );
+  } // End Method 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
