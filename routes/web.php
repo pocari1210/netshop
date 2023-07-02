@@ -51,7 +51,12 @@ Route::controller(AdminController::class)->group(function () {
 
 // Home Slide All Route 
 Route::controller(HomeSliderController::class)->group(function () {
-  Route::get('/home/slide', 'HomeSlider')->name('home.slide');
+  Route::get('/home/slide', 'HomeSlider')
+    ->name('home.slide');
+
+  // Home Slide:更新処理のルート
+  Route::post('/update/slider', 'UpdateSlider')
+    ->name('update.slider');
 });
 
 

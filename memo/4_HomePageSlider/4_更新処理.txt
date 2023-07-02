@@ -1,0 +1,85 @@
+
+4_更新処理
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // Home Slide:更新処理のルート
+  Route::post('/update/slider', 'UpdateSlider')
+    ->name('update.slider');
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\home_slide\home_slide_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <form method="post" action="{{ route('update.slider') }}" enctype="multipart/form-data">
+    @csrf
+
+    ↓↓ここがないと404エラーがでる
+    <input type="hidden" name="id" value="{{ $homeslide->id }}">
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\HomeSliderController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use InterventionImage;
+
+  public function UpdateSlider(Request $request)
+  {
+
+    $slide_id = $request->id;
+
+    if ($request->file('home_slide')) {
+      $image = $request->file('home_slide');
+      $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();  // 3434343443.jpg
+
+      InterventionImage::make($image)->resize(636, 852)->save('upload/home_slide/' . $name_gen);
+      $save_url = 'upload/home_slide/' . $name_gen;
+
+      HomeSlide::findOrFail($slide_id)->update([
+        'title' => $request->title,
+        'short_title' => $request->short_title,
+        'video_url' => $request->video_url,
+        'home_slide' => $save_url,
+      ]);
+
+      $notification = array(
+        'message' => 'Home Slide Updated with Image Successfully',
+        'alert-type' => 'success'
+      );
+
+      return redirect()->back()->with($notification);
+    } else {
+
+      HomeSlide::findOrFail($slide_id)->update([
+        'title' => $request->title,
+        'short_title' => $request->short_title,
+        'video_url' => $request->video_url,
+      ]);
+
+      $notification = array(
+        'message' => 'Home Slide Updated without Image Successfully',
+        'alert-type' => 'success'
+      );
+
+      return redirect()->back()->with($notification);
+    } // end Else
+
+  } // End Method 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
