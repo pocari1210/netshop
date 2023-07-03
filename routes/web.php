@@ -74,6 +74,12 @@ Route::controller(AboutController::class)->group(function () {
   // About Page:aboutページ疎通のルート
   Route::get('/about', 'HomeAbout')
     ->name('home.about');
+
+  Route::get('/about/multi/image', 'AboutMultiImage')
+    ->name('about.multi.image');
+
+  Route::post('/store/multi/image', 'StoreMultiImage')
+    ->name('store.multi.image');
 });
 
 
