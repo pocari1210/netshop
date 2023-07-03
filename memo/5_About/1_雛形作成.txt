@@ -1,0 +1,121 @@
+
+1_雛形作成
+
+01 - ABOUT MEの項目を、
+バックエンドで編集し、フロントエンドに疎通させる
+
+下記コマンドで、モデルとテーブル作成
+php artisan make:model About -m
+
+下記コマンドでコントローラー作成
+php artisan make:controller Home/AboutController
+
+下記コマンドでSeeder作成
+php artisan make:seeder AboutTableSeeder
+
+
+◆テーブルの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_03_114210_create_abouts_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('abouts', function (Blueprint $table) {
+      $table->id();
+      $table->string('title')->nullable();
+      $table->string('short_title')->nullable();
+      $table->text('short_description')->nullable();
+      $table->text('long_description')->nullable();
+      $table->string('about_image')->nullable();
+      $table->timestamps();
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆モデルの編集◆
+
+ディレクトリ
+\app\Models\About.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+class About extends Model
+{
+  use HasFactory;
+
+  protected $guarded = [];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆Seederの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// About Page All Route 
+Route::controller(AboutController::class)->group(function () {
+
+  // AboutPage:詳細のルート
+  Route::get('/about/page', 'AboutPage')
+    ->name('about.page');
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <li>
+    <a href="javascript: void(0);" class="has-arrow waves-effect">
+      <i class="ri-mail-send-line"></i>
+      <span>About Page Setup</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+      <li><a href="{{ route('about.page') }}">About Page</a></li>
+    </ul>
+  </li>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\AboutController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function AboutPage()
+  {
+    $aboutpage = About::find(1);
+
+    return view(
+      'admin.about_page.about_page_all',
+      compact('aboutpage')
+    );
+  } // End Method 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////

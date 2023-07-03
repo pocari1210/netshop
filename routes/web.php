@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Home\HomeSliderController;
+use App\Http\Controllers\Home\AboutController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,18 @@ Route::controller(HomeSliderController::class)->group(function () {
   // Home Slide:更新処理のルート
   Route::post('/update/slider', 'UpdateSlider')
     ->name('update.slider');
+});
+
+// About Page All Route 
+Route::controller(AboutController::class)->group(function () {
+
+  // About Page:詳細のルート
+  Route::get('/about/page', 'AboutPage')
+    ->name('about.page');
+
+  // About Page:詳細のルート
+  Route::post('/update/about', 'UpdateAbout')
+    ->name('update.about');
 });
 
 
