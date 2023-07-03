@@ -70,6 +70,10 @@ Route::controller(AboutController::class)->group(function () {
   // About Page:詳細のルート
   Route::post('/update/about', 'UpdateAbout')
     ->name('update.about');
+
+  // About Page:aboutページ疎通のルート
+  Route::get('/about', 'HomeAbout')
+    ->name('home.about');
 });
 
 

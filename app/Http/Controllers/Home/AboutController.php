@@ -63,4 +63,15 @@ class AboutController extends Controller
     } // end Else
 
   } // End Method 
+
+  // Frontend疎通のコントローラー
+  public function HomeAbout()
+  {
+    $aboutpage = About::find(1);
+
+    return view(
+      'frontend.about_page',
+      compact('aboutpage')
+    );
+  } // End Method  
 }
