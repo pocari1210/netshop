@@ -80,6 +80,10 @@ Route::controller(AboutController::class)->group(function () {
 
   Route::post('/store/multi/image', 'StoreMultiImage')
     ->name('store.multi.image');
+
+  // MultiImage:一覧表示のルート
+  Route::get('/all/multi/image', 'AllMultiImage')
+    ->name('all.multi.image');
 });
 
 

@@ -1,0 +1,118 @@
+
+2_MultiImage_一覧
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// About Page All Route 
+Route::controller(AboutController::class)->group(function () {
+
+  // MultiImage:一覧表示のルート
+  Route::get('/all/multi/image', 'AllMultiImage')
+    ->name('all.multi.image');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+      <span>About Page Setup</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+      <li><a href="{{ route('about.page') }}">About Page</a></li>
+      <li><a href="{{ route('about.multi.image') }}">About Multi Image</a></li>
+
+      ↓↓追加↓↓
+      <li><a href="{{ route('all.multi.image') }}">All Multi Image</a></li>
+    </ul>
+  </li>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\AboutController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function AllMultiImage()
+  {
+    $allMultiImage = MultiImage::all();
+
+    return view(
+      'admin.about_page.all_multiimage',
+      compact('allMultiImage')
+    );
+  } // End Method 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テンプレートベースの編集◆
+
+ディレクトリ
+\resources\views\admin\admin_master.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <!-- datatable js:start -->
+  <!-- Required datatable js -->
+  <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+  <!-- Datatable init js -->
+  <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+  <!-- datatable js:end -->
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テンプレートベースの編集◆
+
+ディレクトリ
+\resources\views\admin\admin_master.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <!-- datatable js:start -->
+  <!-- Required datatable js -->
+  <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+  <!-- Datatable init js -->
+  <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+  <!-- datatable js:end -->
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+◆テンプレートベースの編集◆
+
+ディレクトリ
+\resources\views\admin\admin_master.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <tbody>
+    <!-- @phpディレクティブでid情報を取得している -->
+    @php($i = 1)
+    @foreach($allMultiImage as $item)
+    <tr>
+      <td> {{ $i++}} </td>
+      <td> <img src="{{ asset($item->multi_image) }}" style="width: 60px; height: 50px;"> </td>
+      <td>
+        <a href="" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
+        <a href="" class="btn btn-danger sm" title="Delete Data"> <i class="fas fa-trash-alt"></i> </a>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
