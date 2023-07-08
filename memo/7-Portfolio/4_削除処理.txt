@@ -1,0 +1,59 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Porfolio All Route 
+Route::controller(PortfolioController::class)->group(function () {
+
+  // portfolio:削除処理のルート 
+  Route::get('/delete/portfolio/{id}', 'DeletePortfolio')
+    ->name('delete.portfolio');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\protfolio\protfolio_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<a href="{{ route('delete.portfolio',$item->id) }}" class="btn btn-danger sm" title="Delete Data" id="delete"> 
+<i class="fas fa-trash-alt"></i> 
+</a>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\PortfolioController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function DeletePortfolio($id)
+  {
+    $portfolio = Portfolio::findOrFail($id);
+    $img = $portfolio->portfolio_image;
+    unlink($img);
+
+    Portfolio::findOrFail($id)->delete();
+
+    $notification = array(
+      'message' => 'Portfolio Image Deleted Successfully',
+      'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+  } // End Method 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////

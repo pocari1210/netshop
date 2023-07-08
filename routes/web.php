@@ -119,6 +119,10 @@ Route::controller(PortfolioController::class)->group(function () {
   // portfolio:更新処理のルート
   Route::post('/update/portfolio', 'UpdatePortfolio')
     ->name('update.protfolio');
+
+  // portfolio:削除処理のルート 
+  Route::get('/delete/portfolio/{id}', 'DeletePortfolio')
+    ->name('delete.portfolio');
 });
 
 
