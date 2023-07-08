@@ -92,6 +92,10 @@ Route::controller(AboutController::class)->group(function () {
   // MultiImage:更新処理のルート
   Route::post('/update/multi/image', 'UpdateMultiImage')
     ->name('update.multi.image');
+
+  // MultiImage:削除処理のルート
+  Route::get('/delete/multi/image/{id}', 'DeleteMultiImage')
+    ->name('delete.multi.image');
 });
 
 

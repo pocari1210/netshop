@@ -1,0 +1,108 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // MultiImage:削除処理のルート
+  Route::get('/delete/multi/image/{id}', 'DeleteMultiImage')
+    ->name('delete.multi.image');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\about_page\all_multiimage.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<a href="{{ route('delete.multi.image',$item->id) }}" class="btn btn-danger sm" title="Delete Data" id="delete"> 
+<i class="fas fa-trash-alt"></i> 
+</a>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テンプレートバースの編集◆
+
+ディレクトリ
+\resources\views\admin\admin_master.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <!-- ★sweetalert:start★ -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+  <!-- ★sweetalert:end★ -->
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆sweetalert◆
+
+ディレクトリ
+\public\backend\assets\js\code.js
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+$(function () {
+  $(document).on('click', '#delete', function (e) {
+    e.preventDefault();
+    var link = $(this).attr("href");
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Delete This Data?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = link
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+
+  });
+
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\AboutController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function DeleteMultiImage($id)
+  {
+    $multi = MultiImage::findOrFail($id);
+    $img = $multi->multi_image;
+    unlink($img);
+
+    MultiImage::findOrFail($id)->delete();
+
+    $notification = array(
+      'message' => 'Multi Image Deleted Successfully',
+      'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+  } // End Method 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+削除処理ができたらOK
