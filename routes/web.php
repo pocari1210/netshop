@@ -144,6 +144,18 @@ Route::controller(BlogCategoryController::class)->group(function () {
   // BlogCategory:保存処理のルート 
   Route::post('/store/blog/category', 'StoreBlogCategory')
     ->name('store.blog.category');
+
+  // BlogCategory:編集のルート
+  Route::get('/edit/blog/category/{id}', 'EditBlogCategory')
+    ->name('edit.blog.category');
+
+  // BlogCategory:更新処理ののルート    
+  Route::post('/update/blog/category/{id}', 'UpdateBlogCategory')
+    ->name('update.blog.category');
+
+  // BlogCategory:削除処理のルート    
+  Route::get('/delete/blog/category/{id}', 'DeleteBlogCategory')
+    ->name('delete.blog.category');
 });
 
 Route::middleware('auth')->group(function () {
