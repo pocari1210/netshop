@@ -1,0 +1,95 @@
+
+1_雛形作成
+
+php artisan make:model Portfolio -m
+
+php artisan make:controller Home/PortfolioController
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use App\Http\Controllers\Home\PortfolioController;
+
+// Porfolio All Route 
+Route::controller(PortfolioController::class)->group(function () {
+  Route::get('/all/portfolio', 'AllPortfolio')
+    ->name('all.portfolio');
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テーブルの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_08_102025_create_portfolios_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('portfolios', function (Blueprint $table) {
+      $table->id();
+      $table->string('portfolio_name')->nullable();
+      $table->string('portfolio_title')->nullable();
+      $table->string('portfolio_image')->nullable();
+      $table->text('portfolio_description')->nullable();
+      $table->timestamps();
+    });
+  }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <li>
+    <a href="javascript: void(0);" class="has-arrow waves-effect">
+      <i class="ri-mail-send-line"></i>
+      <span>Portfolio Page Setup</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+      <li><a href="{{ route('all.portfolio') }}">All Portfolio</a></li>
+      <li><a href=" ">Add Portfolio</a></li>
+    </ul>
+  </li>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+◆コントローラーの編集◆
+
+ディレクトリ
+
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////

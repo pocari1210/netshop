@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Home\HomeSliderController;
 use App\Http\Controllers\Home\AboutController;
+use App\Http\Controllers\Home\PortfolioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -96,6 +97,12 @@ Route::controller(AboutController::class)->group(function () {
   // MultiImage:削除処理のルート
   Route::get('/delete/multi/image/{id}', 'DeleteMultiImage')
     ->name('delete.multi.image');
+});
+
+// Porfolio All Route 
+Route::controller(PortfolioController::class)->group(function () {
+  Route::get('/all/portfolio', 'AllPortfolio')
+    ->name('all.portfolio');
 });
 
 
