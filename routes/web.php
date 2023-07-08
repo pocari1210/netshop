@@ -111,6 +111,14 @@ Route::controller(PortfolioController::class)->group(function () {
   // portfolio:保存処理のルート
   Route::post('/store/portfolio', 'StorePortfolio')
     ->name('store.protfolio');
+
+  // portfolio:編集のルート
+  Route::get('/edit/portfolio/{id}', 'EditPortfolio')
+    ->name('edit.portfolio');
+
+  // portfolio:更新処理のルート
+  Route::post('/update/portfolio', 'UpdatePortfolio')
+    ->name('update.protfolio');
 });
 
 

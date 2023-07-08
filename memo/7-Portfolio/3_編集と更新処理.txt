@@ -1,0 +1,53 @@
+
+3_編集と更新処理
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Porfolio All Route 
+Route::controller(PortfolioController::class)->group(function () {
+
+  // portfolio:編集のルート
+  Route::get('/edit/portfolio/{id}', 'EditPortfolio')
+    ->name('edit.portfolio');
+
+  // portfolio:更新処理のルート
+  Route::post('/update/portfolio', 'UpdatePortfolio')
+    ->name('update.protfolio');
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\protfolio\protfolio_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<a href="{{ route('edit.portfolio',$item->id) }}" class="btn btn-info sm" title="Edit Data"> 
+<i class="fas fa-edit"></i> 
+</a>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
