@@ -84,6 +84,14 @@ Route::controller(AboutController::class)->group(function () {
   // MultiImage:一覧表示のルート
   Route::get('/all/multi/image', 'AllMultiImage')
     ->name('all.multi.image');
+
+  // MultiImage:編集のルート
+  Route::get('/edit/multi/image/{id}', 'EditMultiImage')
+    ->name('edit.multi.image');
+
+  // MultiImage:更新処理のルート
+  Route::post('/update/multi/image', 'UpdateMultiImage')
+    ->name('update.multi.image');
 });
 
 

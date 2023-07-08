@@ -1,0 +1,92 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// About Page All Route 
+Route::controller(AboutController::class)->group(function () {
+
+  // MultiImage:編集のルート
+  Route::get('/edit/multi/image/{id}', 'EditMultiImage')
+    ->name('edit.multi.image');
+
+  // MultiImage:更新処理のルート
+  Route::post('/update/multi/image', 'UpdateMultiImage')
+    ->name('update.multi.image');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\about_page\all_multiimage.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<a href="{{ route('edit.multi.image',$item->id) }}" class="btn btn-info sm" title="Edit Data"> 
+  <i class="fas fa-edit"></i> 
+</a>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\AboutController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  // MultiImage:編集のルート
+  public function EditMultiImage($id)
+  {
+
+    $multiImage = MultiImage::findOrFail($id);
+    return view('admin.about_page.edit_multi_image', compact('multiImage'));
+  } // End Method 
+
+  // MultiImage:更新処理のルート
+  public function UpdateMultiImage(Request $request)
+  {
+
+    $multi_image_id = $request->id;
+
+    if ($request->file('multi_image')) {
+      $image = $request->file('multi_image');
+      $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();  // 3434343443.jpg
+
+      InterventionImage::make($image)->resize(220, 220)->save('upload/multi/' . $name_gen);
+      $save_url = 'upload/multi/' . $name_gen;
+
+      MultiImage::findOrFail($multi_image_id)->update([
+        'multi_image' => $save_url,
+      ]);
+
+      $notification = array(
+        'message' => 'Multi Image Updated Successfully',
+        'alert-type' => 'success'
+      );
+
+      return redirect()->route('all.multi.image')->with($notification);
+    }
+  } // End Method 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\admin\about_page\edit_multi_image.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+画像の更新ができたらOK
+
+
+
+
