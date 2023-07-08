@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Home\HomeSliderController;
 use App\Http\Controllers\Home\AboutController;
 use App\Http\Controllers\Home\PortfolioController;
+use App\Http\Controllers\Home\BlogCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,6 +130,13 @@ Route::controller(PortfolioController::class)->group(function () {
     ->name('portfolio.details');
 });
 
+// Blog Category All Routes 
+Route::controller(BlogCategoryController::class)->group(function () {
+
+  // BlogCategory:一覧のルート
+  Route::get('/all/blog/category', 'AllBlogCategory')
+    ->name('all.blog.category');
+});
 
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
