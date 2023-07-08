@@ -103,6 +103,14 @@ Route::controller(AboutController::class)->group(function () {
 Route::controller(PortfolioController::class)->group(function () {
   Route::get('/all/portfolio', 'AllPortfolio')
     ->name('all.portfolio');
+
+  // portfolio:新規作成のルート
+  Route::get('/add/portfolio', 'AddPortfolio')
+    ->name('add.portfolio');
+
+  // portfolio:保存処理のルート
+  Route::post('/store/portfolio', 'StorePortfolio')
+    ->name('store.protfolio');
 });
 
 
