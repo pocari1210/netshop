@@ -123,6 +123,10 @@ Route::controller(PortfolioController::class)->group(function () {
   // portfolio:削除処理のルート 
   Route::get('/delete/portfolio/{id}', 'DeletePortfolio')
     ->name('delete.portfolio');
+
+  // portfolio:詳細のルート(Frontend疎通)
+  Route::get('/portfolio/details/{id}', 'PortfolioDetails')
+    ->name('portfolio.details');
 });
 
 
