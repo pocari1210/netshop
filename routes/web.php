@@ -136,6 +136,14 @@ Route::controller(BlogCategoryController::class)->group(function () {
   // BlogCategory:一覧のルート
   Route::get('/all/blog/category', 'AllBlogCategory')
     ->name('all.blog.category');
+
+  // BlogCategory:新規作成のルート
+  Route::get('/add/blog/category', 'AddBlogCategory')
+    ->name('add.blog.category');
+
+  // BlogCategory:保存処理のルート 
+  Route::post('/store/blog/category', 'StoreBlogCategory')
+    ->name('store.blog.category');
 });
 
 Route::middleware('auth')->group(function () {
