@@ -173,6 +173,10 @@ Route::controller(BlogController::class)->group(function () {
   // Blog:保存処理のルート
   Route::post('/store/blog', 'StoreBlog')
     ->name('store.blog');
+
+  // Blog:編集のルート
+  Route::get('/edit/blog/{id}', 'EditBlog')
+    ->name('edit.blog');
 });
 
 Route::middleware('auth')->group(function () {

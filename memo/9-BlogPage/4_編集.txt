@@ -1,0 +1,66 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Blog All Route 
+Route::controller(BlogController::class)->group(function () {
+
+  // Blog:編集のルート
+  Route::get('/edit/blog/{id}', 'EditBlog')
+    ->name('edit.blog');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\blogs\blogs_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <td> <img src="{{ asset($item->blog_image) }}" style="width: 60px; height: 50px;"> </td>
+  <td>
+
+    ↓↓編集↓↓
+    <a href="{{ route('edit.blog',$item->id) }}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
+    <a href="{{ route('delete.portfolio',$item->id) }}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+  </td>
+</tr>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\BlogController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function EditBlog($id)
+  {
+    $blogs = Blog::findOrFail($id);
+    $categories = BlogCategory::orderBy('blog_category', 'ASC')->get();
+
+    return view(
+      'admin.blogs.blogs_edit',
+      compact('blogs', 'categories')
+    );
+  } // End Method  
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\admin\blogs\blogs_edit.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+編集ページが表示されたらOK
