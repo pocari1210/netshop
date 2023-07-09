@@ -185,6 +185,19 @@ Route::controller(BlogController::class)->group(function () {
   // Blog:削除処理のルート   
   Route::get('/delete/blog/{id}', 'DeleteBlog')
     ->name('delete.blog');
+
+  // Blog:詳細のルート(Frontend) 
+  Route::get('/blog/details/{id}', 'BlogDetails')
+    ->name('blog.details');
+
+  Route::get('/category/blog/{id}', 'CategoryBlog')
+    ->name('category.blog');
+
+  Route::get('/blog', 'HomeBlog')
+    ->name('home.blog');
+
+  Route::get('/blog', 'HomeBlog')
+    ->name('home.blog');
 });
 
 Route::middleware('auth')->group(function () {

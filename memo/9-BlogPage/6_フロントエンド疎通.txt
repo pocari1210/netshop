@@ -1,0 +1,66 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Blog All Route 
+Route::controller(BlogController::class)->group(function () {
+
+  // Blog:詳細のルート(Frontend) 
+  Route::get('/blog/details/{id}', 'BlogDetails')
+    ->name('blog.details');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\frontend\home_all\home_blog.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <div class="blog__post__content">
+    <span class="date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} </span>
+    <h3 class="title"><a href="blog-details.html"> {{ $item->blog_title }} </a></h3>
+
+    ↓↓編集↓↓
+    <a href="{{ route('blog.details',$item->id) }}" class="read__more">Read mORe</a>
+  </div>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\BlogController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function BlogDetails($id)
+  {
+    $allblogs = Blog::latest()->limit(5)->get();
+    $blogs = Blog::findOrFail($id);
+    $categories = BlogCategory::orderBy('blog_category', 'ASC')->get();
+
+    return view(
+      'frontend.blog_details',
+      compact('blogs', 'allblogs', 'categories')
+    );
+  } // End Method  
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+s\resources\views\frontend\blog_details.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+詳細ページが表示できたらOK
