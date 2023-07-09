@@ -169,6 +169,10 @@ Route::controller(BlogController::class)->group(function () {
   // Blog:新規作成のルート
   Route::get('/add/blog', 'AddBlog')
     ->name('add.blog');
+
+  // Blog:保存処理のルート
+  Route::post('/store/blog', 'StoreBlog')
+    ->name('store.blog');
 });
 
 Route::middleware('auth')->group(function () {

@@ -74,7 +74,6 @@ class BlogCategoryController extends Controller
 
   public function DeleteBlogCategory($id)
   {
-
     BlogCategory::findOrFail($id)->delete();
 
     $notification = array(
