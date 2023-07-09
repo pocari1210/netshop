@@ -1,0 +1,111 @@
+
+1_雛形作成
+
+下記コマンドで、モデルとテーブル作成
+php artisan make:model Blog -m
+
+php artisan make:controller Home/BlogController
+
+
+◆テーブルの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_09_004024_create_blogs_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('blogs', function (Blueprint $table) {
+      $table->id();
+      $table->string('blog_category_id')->nullable();
+      $table->string('blog_title')->nullable();
+      $table->string('blog_image')->nullable();
+      $table->string('blog_tags')->nullable();
+      $table->text('blog_description')->nullable();
+      $table->timestamps();
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆モデルの編集◆
+
+ディレクトリ
+\app\Models\Blog.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+class Blog extends Model
+{
+  use HasFactory;
+  protected $guarded = [];
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Blog All Route 
+Route::controller(BlogController::class)->group(function () {
+
+  // Blog:一覧のルート
+  Route::get('/all/blog', 'AllBlog')
+    ->name('all.blog');
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <li>
+    <a href="javascript: void(0);" class="has-arrow waves-effect">
+      <i class="ri-profile-line"></i>
+      <span>Blog Page</span>
+    </a>
+    <ul class="sub-menu" aria-expanded="false">
+      <li><a href="{{ route('all.blog') }}">All Blog</a></li>
+      <li><a href="pages-timeline.html">Add Blog</a></li>
+    </ul>
+  </li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\BlogController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function AllBlog()
+  {
+    $blogs = Blog::latest()->get();
+
+    return view(
+      'admin.blogs.blogs_all',
+      compact('blogs')
+    );
+  } // End Method
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\admin\blogs\blogs_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
