@@ -165,6 +165,10 @@ Route::controller(BlogController::class)->group(function () {
   // Blog:一覧のルート
   Route::get('/all/blog', 'AllBlog')
     ->name('all.blog');
+
+  // Blog:新規作成のルート
+  Route::get('/add/blog', 'AddBlog')
+    ->name('add.blog');
 });
 
 Route::middleware('auth')->group(function () {

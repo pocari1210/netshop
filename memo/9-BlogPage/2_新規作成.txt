@@ -1,0 +1,80 @@
+
+2_新規作成
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Blog All Route 
+Route::controller(BlogController::class)->group(function () {
+
+  // Blog:新規作成のルート
+  Route::get('/add/blog', 'AddBlog')
+    ->name('add.blog');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<li><a href="{{ route('add.blog') }}">Add Blog</a></li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ベーステンプレートの編集◆
+
+ディレクトリ
+
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <!-- bootstrap.tagsinput Css -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css">
+
+  <!-- ★bootstrap-tagsinput:start★ -->
+  <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+  <!-- ★bootstrap-tagsinput:end★ -->
+</body>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\BlogController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function AddBlog()
+  {
+    return view('admin.blogs.blogs_add');
+  } // End Method  
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+◆コントローラーの編集◆
+
+ディレクトリ
+
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
