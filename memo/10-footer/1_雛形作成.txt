@@ -1,0 +1,113 @@
+
+1_雛形作成
+
+下記コマンドで、モデルとテーブル作成
+php artisan make:model Footer -m
+
+下記コマンドで、コントローラー作成
+php artisan make:controller Home/FooterController
+
+◆モデルの編集◆
+
+ディレクトリ
+\app\Models\Footer.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+class Footer extends Model
+{
+  use HasFactory;
+  protected $guarded = [];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テーブルの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_09_092355_create_footers_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('footers', function (Blueprint $table) {
+      $table->id();
+      $table->string('number')->nullable();
+      $table->text('short_description')->nullable();
+      $table->string('adress')->nullable();
+      $table->string('email')->nullable();
+      $table->string('facebook')->nullable();
+      $table->string('twitter')->nullable();
+      $table->string('copyright')->nullable();
+      $table->timestamps();
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use App\Http\Controllers\Home\FooterController;
+
+// Footer All Route 
+Route::controller(FooterController::class)->group(function () {
+  Route::get('/footer/setup', 'FooterSetup')
+    ->name('footer.setup');
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow waves-effect">
+            <i class="ri-profile-line"></i>
+            <span>Footer Page Setup</span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="{{ route('footer.setup') }}">Footer Setup</a></li>
+          </ul>
+        </li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\FooterController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function FooterSetup()
+  {
+    $allfooter = Footer::find(1);
+
+    return view(
+      'admin.footer.footer_all',
+      compact('allfooter')
+    );
+  } // end method 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\admin\footer\footer_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+登録内容のページがしるされていたらOK
+
