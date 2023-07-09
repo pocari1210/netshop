@@ -177,6 +177,14 @@ Route::controller(BlogController::class)->group(function () {
   // Blog:編集のルート
   Route::get('/edit/blog/{id}', 'EditBlog')
     ->name('edit.blog');
+
+  // Blog:更新処理のルート    
+  Route::post('/update/blog', 'UpdateBlog')
+    ->name('update.blog');
+
+  // Blog:削除処理のルート   
+  Route::get('/delete/blog/{id}', 'DeleteBlog')
+    ->name('delete.blog');
 });
 
 Route::middleware('auth')->group(function () {
