@@ -205,6 +205,10 @@ Route::controller(BlogController::class)->group(function () {
 Route::controller(FooterController::class)->group(function () {
   Route::get('/footer/setup', 'FooterSetup')
     ->name('footer.setup');
+
+  // Footer:更新処理
+  Route::post('/update/footer', 'UpdateFooter')
+    ->name('update.footer');
 });
 
 Route::middleware('auth')->group(function () {

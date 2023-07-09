@@ -1,0 +1,67 @@
+
+2_更新処理
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Footer All Route 
+Route::controller(FooterController::class)->group(function () {
+
+  // Footer:更新処理
+  Route::post('/update/footer', 'UpdateFooter')
+    ->name('update.footer');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\footer\footer_all.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <h4 class="card-title">Footer Page </h4>
+
+  ↓↓編集↓↓
+  <form method="post" action="{{ route('update.footer') }}">
+    @csrf
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\FooterController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function UpdateFooter(Request $request)
+  {
+    $footer_id = $request->id;
+
+    Footer::findOrFail($footer_id)->update([
+      'number' => $request->number,
+      'short_description' => $request->short_description,
+      'adress' => $request->adress,
+      'email' => $request->email,
+      'facebook' => $request->facebook,
+      'twitter' => $request->twitter,
+      'copyright' => $request->copyright,
+    ]);
+
+    $notification = array(
+      'message' => 'Footer Updated Successfully',
+      'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+  } // end method   
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+更新処理が成功したらOK
