@@ -1,0 +1,71 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Contact All Route 
+Route::controller(ContactController::class)->group(function () {
+
+  Route::get('/contact/message', 'ContactMessage')
+    ->name('contact.message');
+
+  Route::get('/delete/message/{id}', 'DeleteMessage')
+    ->name('delete.message');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\admin\body\sidebar.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow waves-effect">
+            <i class="ri-profile-line"></i>
+            <span>Contact Message </span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="{{ route('contact.message') }}">Contact Message</a></li>
+          </ul>
+        </li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\ContactController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function ContactMessage()
+  {
+    $contacts = Contact::latest()->get();
+
+    return view(
+      'admin.contact.allcontact',
+      compact('contacts')
+    );
+  } // end mehtod 
+
+  public function DeleteMessage($id)
+  {
+    Contact::findOrFail($id)->delete();
+
+    $notification = array(
+      'message' => 'Your Message Deleted Successfully',
+      'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+  } // end mehtod 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
