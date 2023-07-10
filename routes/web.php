@@ -215,6 +215,10 @@ Route::controller(FooterController::class)->group(function () {
 // Contact All Route 
 Route::controller(ContactController::class)->group(function () {
   Route::get('/contact', 'Contact')->name('contact.me');
+
+  // Contact:保存処理
+  Route::post('/store/message', 'StoreMessage')
+    ->name('store.message');
 });
 
 Route::middleware('auth')->group(function () {

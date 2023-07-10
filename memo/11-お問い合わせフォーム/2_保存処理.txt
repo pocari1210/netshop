@@ -1,0 +1,81 @@
+
+2_保存処理
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Contact All Route 
+Route::controller(ContactController::class)->group(function () {
+
+  // Contact:保存処理
+  Route::post('/store/message', 'StoreMessage')
+    ->name('store.message');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\frontend\contact.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+      <form method="post" action="{{ route('store.message') }}" class="contact__form">
+        @csrf
+
+        <div class="row">
+          <div class="col-md-6">
+            <input name="name" type="text" placeholder="Enter your name*">
+          </div>
+          <div class="col-md-6">
+            <input name="email" type="email" placeholder="Enter your mail*">
+          </div>
+          <div class="col-md-6">
+            <input name="subject" type="text" placeholder="Enter your subject*">
+          </div>
+          <div class="col-md-6">
+            <input name="phone" type="text" placeholder="Your Phone*">
+          </div>
+        </div>
+        <textarea name="message" id="message" placeholder="Enter your massage*"></textarea>
+        <button type="submit" class="btn">send massage</button>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\ContactController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+  public function StoreMessage(Request $request)
+  {
+    Contact::insert([
+      'name' => $request->name,
+      'email' => $request->email,
+      'subject' => $request->subject,
+      'phone' => $request->phone,
+      'message' => $request->message,
+      'created_at' => Carbon::now(),
+    ]);
+
+    $notification = array(
+      'message' => 'Your Message Submited Successfully',
+      'alert-type' => 'success'
+    );
+
+    return redirect()->back()->with($notification);
+  } // end mehtod 
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
