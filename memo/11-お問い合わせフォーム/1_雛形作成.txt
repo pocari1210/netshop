@@ -1,0 +1,98 @@
+
+下記コマンドでモデルとテーブルを作成
+php artisan make:model Contact -m
+
+下記コマンドでコントローラー新規作成
+php artisan make:controller Home/ContactController
+
+
+
+
+◆モデルの編集◆
+
+ディレクトリ
+\app\Models\Contact.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+class Contact extends Model
+{
+  use HasFactory;
+  protected $guarded = [];
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆テーブルの編集◆
+
+ディレクトリ
+\database\migrations\2023_07_10_115856_create_contacts_table.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function up()
+  {
+    Schema::create('contacts', function (Blueprint $table) {
+      $table->id();
+      $table->string('name')->nullable();
+      $table->string('email')->nullable();
+      $table->string('subject')->nullable();
+      $table->string('phone')->nullable();
+      $table->text('message')->nullable();
+      $table->timestamps();
+    });
+  }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+use App\Http\Controllers\Home\ContactController;
+
+// Contact All Route 
+Route::controller(ContactController::class)->group(function () {
+  Route::get('/contact', 'Contact')->name('contact.me');
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\frontend\body\header.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+<li><a href="{{ route('contact.me') }}">contact me</a></li>
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\ContactController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function Contact()
+  {
+    return view('frontend.contact');
+  } // end mehtod 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\frontend\body\header.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・

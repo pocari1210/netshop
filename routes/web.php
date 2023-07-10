@@ -8,6 +8,7 @@ use App\Http\Controllers\Home\PortfolioController;
 use App\Http\Controllers\Home\BlogCategoryController;
 use App\Http\Controllers\Home\BlogController;
 use App\Http\Controllers\Home\FooterController;
+use App\Http\Controllers\Home\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -209,6 +210,11 @@ Route::controller(FooterController::class)->group(function () {
   // Footer:更新処理
   Route::post('/update/footer', 'UpdateFooter')
     ->name('update.footer');
+});
+
+// Contact All Route 
+Route::controller(ContactController::class)->group(function () {
+  Route::get('/contact', 'Contact')->name('contact.me');
 });
 
 Route::middleware('auth')->group(function () {
