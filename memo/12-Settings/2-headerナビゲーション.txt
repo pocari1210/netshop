@@ -8,7 +8,22 @@
 
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 
+use App\Http\Controllers\Demo\DemoController;
 
+// Route::get('/', function () {
+//   return view('frontend.index');
+// });
+
+Route::controller(DemoController::class)->group(function () {
+  Route::get('/', 'HomeMain')
+    ->name('home');
+
+  Route::get('/about', 'Index')
+    ->name('about.page')->middleware('check');
+
+  Route::get('/contact', 'ContactMethod')
+    ->name('cotact.page');
+});
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,25 +31,61 @@
 ◆ビューの編集(遷移元)◆
 
 ディレクトリ
+\resources\views\frontend\body\header.blade.php
 
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 
+                  <ul class="navigation">
+                    <li class="{{ ($route == 'home')? 'active' : '' }}">
+                      <a href="{{ route('home') }}">Home</a>
+                    </li>
 
+                    <li class="{{ ($route == 'home.about')? 'active' : '' }}">
+                      <a href="{{ route('home.about') }}">About</a>
+                    </li>
+
+                    <li>
+                      <a href="services-details.html">Services</a>
+                    </li>
+
+                    <li class="{{ ($route == 'home.portfolio') ? 'active' : '' }}">
+                      <a href="{{ route('home.portfolio') }}">Portfolio</a>
+                    </li>
+
+                    <li class="{{ ($route == 'home.blog') ? 'active' : '' }}">
+                      <a href="{{ route('home.blog') }}">Our Blog</a>
+                    </li>
+
+                    <li class="{{ ($route == 'contact.me') ? 'active' : '' }}">
+                      <a href="{{ route('contact.me') }}">contact me</a>
+                    </li>
+                  </ul>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 ◆コントローラーの編集◆
 
 ディレクトリ
-
+\app\Http\Controllers\Demo\DemoController.php
 
 ・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
 
+class DemoController extends Controller
+{
+  public function HomeMain()
+  {
+    return view('frontend.index');
+  } // end mehtod 
 
+  public function Index()
+  {
+    return view('about');
+  } // end mehtod 
 
-
-
-
-
+  public function ContactMethod()
+  {
+    return view('contact');
+  }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
