@@ -131,6 +131,10 @@ Route::controller(PortfolioController::class)->group(function () {
   // portfolio:詳細のルート(Frontend疎通)
   Route::get('/portfolio/details/{id}', 'PortfolioDetails')
     ->name('portfolio.details');
+
+  // portfolio:メインページのルート(Frontend)
+  Route::get('/portfolio', 'HomePortfolio')
+    ->name('home.portfolio');
 });
 
 // Blog Category All Routes 

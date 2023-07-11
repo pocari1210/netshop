@@ -1,0 +1,60 @@
+
+
+
+◆ルートの編集◆
+
+ディレクトリ
+\routes\web.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+// Porfolio All Route 
+Route::controller(PortfolioController::class)->group(function () {
+
+  // portfolio:メインページのルート(Frontend)
+  Route::get('/portfolio', 'HomePortfolio')
+    ->name('home.portfolio');
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\frontend\body\header.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  <li class="menu-item-has-children">
+    <a href="{{ route('home.portfolio') }}">Portfolio</a>
+  </li>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆コントローラーの編集◆
+
+ディレクトリ
+\app\Http\Controllers\Home\PortfolioController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function HomePortfolio()
+  {
+    $portfolio = Portfolio::latest()->get();
+
+    return view(
+      'frontend.portfolio',
+      compact('portfolio')
+    );
+  } // End Method   
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移先)◆
+
+ディレクトリ
+\resources\views\frontend\portfolio.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+FrontendのheaderからPortfolioの一覧ページがひらけたらOK
