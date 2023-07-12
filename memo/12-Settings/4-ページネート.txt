@@ -1,0 +1,30 @@
+
+
+◆コントローラー◆
+
+ディレクトリ
+\app\Http\Controllers\Home\BlogController.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+  public function HomeBlog()
+  {
+    $categories = BlogCategory::orderBy('blog_category', 'ASC')->get();
+
+    ↓↓編集↓↓
+    $allblogs = Blog::latest()->paginate(3);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+◆ビューの編集(遷移元)◆
+
+ディレクトリ
+\resources\views\frontend\blog.blade.php
+
+・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
+
+
+          <div class="pagination-wrap">
+            {{ $allblogs->links() }}
+          </div>

@@ -33,7 +33,7 @@
 
               <tbody>
                 @php($i = 1)
-                @foreach($blogs as $item)
+                @foreach($blogs as $key => $item)
                 <tr>
                   <td> {{ $i++}} </td>
                   <td> {{ $item['category']['blog_category'] }} </td>
